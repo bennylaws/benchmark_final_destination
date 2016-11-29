@@ -1,52 +1,42 @@
 package bench1;
 
 import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.Connection;
-
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-
 public class DBI42Bench1 {
-	
+
 	public static void main(String[] args) {
 
 		Scanner scanner = new Scanner(System.in);
 		int n;
 		double start, stop, diff;
-		
-		FileWriter fw = null;
-		try {
-			fw = new FileWriter("/home/ben/SQL");
-		} catch (IOException e2) {
-			e2.printStackTrace();
-		}
-		
+
 		System.out.print("Jetzt n eingeben: ");
 		n = scanner.nextInt();
 		scanner.close();
-		
+
 		// Random Array for branchid in accounts
 		int[] randomArr = new int[n * 100000];
 		for (int i = 0; i < 100000; i++)
-			randomArr[i] = (int)(1+(Math.random()*n));
-		
+			randomArr[i] = (int) (1 + (Math.random() * n));
+
 		Connection conni = null;
 		Statement stmt = null;
 		PreparedStatement prepStmt = null;
-	
-		//Verbindung herstellen
+
+		// Verbindung herstellen
 		try {
-//			conni = DriverManager.getConnection(
-//					"jdbc:mysql://192.168.122.46", "dbi", "dbi_pass");
-			conni = DriverManager.getConnection(
-					"jdbc:mysql://localhost", "bench", "atb");
-		} 
-		
+			conni = DriverManager.getConnection("jdbc:mysql://localhost",
+					"dbi", "dbi_pass");
+			// conni = DriverManager.getConnection(
+			// "jdbc:mysql://localhost", "bench", "atb");
+		}
+
 		catch (SQLException e) {
 			String err = e.getMessage();
 			System.out.println("Fehler...");
@@ -62,45 +52,39 @@ public class DBI42Bench1 {
 			e1.printStackTrace();
 		}
 		Init.init(stmt);
-		
+
 		start = System.nanoTime();
-		
-		try{
+
+		try {
+			FileWriter fw = new FileWriter("C:/User/SQL.txt");
 			Fill.fill(conni, prepStmt, n, fw, randomArr);
-		}
-		catch(Exception e){
+			fw.flush();
+			fw.close();
+		} catch (Exception e) {
 			System.out.println("Fehler...");
 			System.err.println(e);
-			
+
 		}
+
 		// Foreign Key checks wieder einschalten
 		try {
 			prepStmt = conni.prepareStatement(Statements.after1);
 			prepStmt.execute();
 			prepStmt = conni.prepareStatement(Statements.after2);
 			prepStmt.execute();
-			
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 		stop = System.nanoTime();
-		diff = stop-start;
-		System.out.printf("Fertig, es hat %.2fs gedauert", diff/1000000000);
-				
-		//Verbindung beenden, Programm verlassen
-		try{
-			conni.close();
-		}
-		catch(Exception e){
-			System.out.println(e);
-			
-		}
+		diff = stop - start;
+		System.out.printf("Fertig, es hat %.2fs gedauert", diff / 1000000000);
+
+		// Verbindung beenden, Programm verlassen
 		try {
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+			conni.close();
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 }

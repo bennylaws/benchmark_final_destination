@@ -58,7 +58,7 @@ public class Statements {
 	
 //	static String accounts = "INSERT INTO accounts VALUES ( ?, ?, ?, ?, ? );";
 	
-	static String loadfile = "LOAD DATA LOCAL INFILE '/home/ben/SQL' INTO TABLE accounts;";
+	static String loadfile = "LOAD DATA LOCAL INFILE 'C:/User/SQL.txt' INTO TABLE accounts;";
 	
 	static String after1 = "SET foreign_key_checks = 1;";
 	
