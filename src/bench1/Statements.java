@@ -49,7 +49,7 @@ public class Statements {
 	// str7
 	 "SET @@session.unique_checks = 0;",
 	 // str8
-	 "SET @@foreign_key_checks = 0;",
+	 "SET @@session.foreign_key_checks = 0;",
 	};
 	
 	static String branches = "INSERT INTO branches VALUES ( ?, ?, ?, ? );";
@@ -60,7 +60,7 @@ public class Statements {
 	
 	static String loadfile = "LOAD DATA LOCAL INFILE 'C:/User/SQL.txt' INTO TABLE accounts;";
 	
-	static String after1 = "SET foreign_key_checks = 1;";
+	static String after1 = "SET @@session.foreign_key_checks = 1;";
 	
 	static String after2 = "SET @@session.unique_checks = 1;";
 	
