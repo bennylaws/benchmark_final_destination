@@ -52,8 +52,6 @@ public class Fill {
 					+ "\tnameMit20Buchstaben!\t0\t"
 					+ randomArr[i]
 					+ "\tabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnop");
-			@SuppressWarnings("unused")
-			String foo = System.getProperty("line.separator");
 			fw.write(System.getProperty("line.separator"));
 		}
 
